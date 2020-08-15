@@ -1,0 +1,259 @@
+ID,Name,Type
+1,Stench,Battle
+2,Drizzle,SendOut
+3,Speed Boost,EndOfTurn
+4,Battle Armor,Battle
+5,Sturdy,Battle
+6,Damp,Immunity
+7,Limber,Immunity
+8,Sand Veil,Battle
+9,Static,Battle
+10,Volt Absorb,Battle
+11,Water Absorb,Battle
+12,Oblivious,Battle
+13,Cloud Nine,Battle
+14,Compound Eyes,Battle
+15,Insomnia,Immunity
+16,Color Change,Battle
+17,Immunity,Immunity
+18,Flash Fire,Battle
+19,Shield Dust,Battle
+20,Own Tempo,Immunity
+21,Suction Cups,Battle
+22,Intimidate,SendOut
+23,Shadow Tag,Field
+24,Rough Skin,Battle
+25,Wonder Guard,Battle
+26,Levitate,Immunity
+27,Effect Spore,Battle
+28,Synchronize,Battle
+29,Clear Body,Immunity
+30,Natural Cure,SwitchOut
+31,Lightning Rod,Battle
+32,Serene Grace,Battle
+33,Swift Swim,Field
+34,Chlorophyll,Field
+35,Illuminate,Field
+36,Trace,SwitchOut
+37,Huge Power,Field
+38,Poison Point,Battle
+39,Inner Focus,Immunity
+40,Magma Armor,Immunity
+41,Water Veil,Immunity
+42,Magnet Pull,Field
+43,Soundproof,Immunity
+44,Rain Dish,EndOfTurn
+45,Sand Stream,SendOut
+46,Pressure,Battle
+47,Thick Fat,Battle
+48,Early Bird,Immunity
+49,Flame Body,Battle
+50,Run Away,Field
+51,Keen Eye,Immunity
+52,Hyper Cutter,Immunity
+53,Pickup,EndOfTurn
+54,Truant,Field
+55,Hustle,Battle
+56,Cute Charm,Battle
+57,Plus,Battle
+58,Minus,Battle
+59,Forecast,Field
+60,Sticky Hold,Battle
+61,Shed Skin,EndOfTurn
+62,Guts,Field
+63,Marvel Scale,Field
+64,Liquid Ooze,Field
+65,Overgrow,Battle
+66,Blaze,Battle
+67,Torrent,Battle
+68,Swarm,Battle
+69,Rock Head,Battle
+70,Drought,SendOut
+71,Arena Trap,Field
+72,Vital Spirit,Immunity
+73,White Smoke,Immunity
+74,Pure Power,Field
+75,Shell Armor,Battle
+76,Air Lock,Field
+77,Tangled Feet,Battle
+78,Motor Drive,Battle
+79,Rivalry,Battle
+80,Steadfast,Battle
+81,Snow Cloak,Battle
+82,Gluttony,Field
+83,Anger Point,Battle
+84,Unburden,Field
+85,Heatproof,Battle
+86,Simple,Field
+87,Dry Skin,Field
+88,Download,SendOut
+89,Iron Fist,Battle
+90,Poison Heal,Immunity
+91,Adaptability,Battle
+92,Skill Link,Battle
+93,Hydration,EndOfTurn
+94,Solar Power,Field
+95,Quick Feet,Field
+96,Normalize,Battle
+97,Sniper,Battle
+98,Magic Guard,Field
+99,No Guard,Battle
+100,Stall,Battle
+101,Technician,Battle
+102,Leaf Guard,Immunity
+103,Klutz,Immunity
+104,Mold Breaker,Battle
+105,Super Luck,Battle
+106,Aftermath,Battle
+107,Anticipation,SendOut
+108,Forewarn,SendOut
+109,Unaware,Battle
+110,Tinted Lens,Battle
+111,Filter,Battle
+112,Slow Start,SendOut
+113,Scrappy,Battle
+114,Storm Drain,Battle
+115,Ice Body,EndOfTurn
+116,Solid Rock,Battle
+117,Snow Warning,SendOut
+118,Honey Gather,Field
+119,Frisk,SendOut
+120,Reckless,Battle
+121,Multitype,Field
+122,Flower Gift,Field
+123,Bad Dreams,EndOfTurn
+124,Pickpocket,Battle
+125,Sheer Force,Battle
+126,Contrary,Field
+127,Unnerve,Field
+128,Defiant,Field
+129,Defeatist,Battle
+130,Cursed Body,Battle
+131,Healer,EndOfTurn
+132,Friend Guard,Field
+133,Weak Armor,Battle
+134,Heavy Metal,Battle
+135,Light Metal,Battle
+136,Multiscale,Battle
+137,Toxic Boost,Battle
+138,Flare Boost,Battle
+139,Harvest,EndOfTurn
+140,Telepathy,Battle
+141,Moody,EndOfTurn
+142,Overcoat,Immunity
+143,Poison Touch,Battle
+144,Regenerator,SwitchOut
+145,Big Pecks,Immunity
+146,Sand Rush,Field
+147,Wonder Skin,Battle
+148,Analytic,Battle
+149,Illusion,Field
+150,Imposter,SendOut
+151,Infiltrator,Battle
+152,Mummy,Battle
+153,Moxie,Battle
+154,Justified,Battle
+155,Rattled,Field
+156,Magic Bounce,Battle
+157,Sap Sipper,Battle
+158,Prankster,Field
+159,Sand Force,Battle
+160,Iron Barbs,Battle
+161,Zen Mode,Battle
+162,Victory Star,Battle
+163,Turboblaze,Battle
+164,Teravolt,Battle
+165,Aroma Veil,Field
+166,Flower Veil,Field
+167,Cheek Pouch,Field
+168,Protean,Battle
+169,Fur Coat,Battle
+170,Magician,Battle
+171,Bulletproof,Battle
+172,Competitive,Field
+173,Strong Jaw,Battle
+174,Refrigerate,Battle
+175,Sweet Veil,Field
+176,Stance Change,Battle
+177,Gale Wings,Field
+178,Mega Launcher,Battle
+179,Grass Pelt,Field
+180,Symbiosis,Field
+181,Tough Claws,Battle
+182,Pixilate,Battle
+183,Gooey,Battle
+184,Aerilate,Battle
+185,Parental Bond,Battle
+186,Dark Aura,Field
+187,Fairy Aura,Field
+188,Aura Break,Field
+189,Primordial Sea,SendOut
+190,Desolate Land,SendOut
+191,Delta Stream,SendOut
+192,Stamina,Battle
+193,Wimp Out,Battle
+194,Emergency Exit,Battle
+195,Water Compaction,Battle
+196,Merciless,Battle
+197,Shields Down,Field
+198,Stakeout,Battle
+199,Water Bubble,Field
+200,Steelworker,Battle
+201,Berserk,Battle
+202,Slush Rush,Field
+203,Long Reach,Battle
+204,Liquid Voice,Battle
+205,Triage,Field
+206,Galvanize,Battle
+207,Surge Surfer,Field
+208,Schooling,Field
+209,Disguise,Battle
+210,Battle Bond,Battle
+211,Power Construct,Battle
+212,Corrosion,Battle
+213,Comatose,Field
+214,Queenly Majesty,Field
+215,Innards Out,Battle
+216,Dancer,Battle
+217,Battery,Field
+218,Fluffy,Battle
+219,Dazzling,Field
+220,Soul-Heart,Field
+221,Tangling Hair,Battle
+222,Receiver,Field
+223,Power of Alchemy,Field
+224,Beast Boost,Battle
+225,RKS System,Field
+226,Electric Surge,SendOut
+227,Psychic Surge,SendOut
+228,Misty Surge,SendOut
+229,Grassy Surge,SendOut
+230,Full Metal Body,Field
+231,Shadow Shield,Battle
+232,Prism Armor,Battle
+233,Neuroforce,Battle
+234,Intrepid Sword,SendOut
+235,Dauntless Shield,SendOut
+236,Libero,Battle
+237,Ball Fetch,Field
+238,Cotton Down,Battle
+239,Propeller Tail,Battle
+240,Mirror Armor,Field
+241,Gulp Missile,Battle
+242,Stalwart,Battle
+243,Steam Engine,Battle
+244,Punk Rock,Battle
+245,Sand Spit,Battle
+246,Ice Scales,Battle
+247,Ripen,Field
+248,Ice Face,Field
+249,Power Spot,Field
+250,Mimicry,Field
+251,Screen Cleaner,SendOut
+252,Steely Spirit,Field
+253,Perish Body,Battle
+254,Wandering Spirit,Battle
+255,Gorilla Tactics,Field
+256,Neutralizing Gas,Field
+257,Pastel Veil,Field
+258,Hunger Switch,EndOfTurn

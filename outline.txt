@@ -1,0 +1,166 @@
+--Pokemon_base
+
+ID
+DexNum
+Name
+Type1
+Type2
+BST
+HP
+ATK
+DEF
+SPATK
+SPDEF
+SPD
+Gen
+IsNFE
+IsLegal
+
+--Team_Mon
+
+Gender
+Item
+Ability
+Move1
+Move2
+Move3
+Move4
+EVHP
+EVATK
+EVDEF
+EVSPATK
+EVSPDEF
+EVSPD
+IVHP
+IVATK
+IVDEF
+IVSPATK
+IVSPDEF
+IVSPD
+NATURE
+IsGmax
+
+--Battle_Mon
+
+CurrentHP
+CurrentBaseHP
+IsKnockedOut
+ATKStage
+DEFStage
+SPATKStage
+SPDEFStage
+SPDStage
+CritStage
+AccStage
+EvaStage
+Status
+StatusTurns -- Sleep/Bad Poison counter
+LastMoveUsed
+TurnsOnField -- Fake out plus mechanics
+IsDisappeared -- Phantom Force, Shadow Force
+IsUnderground -- Dig, EQ, Fissure, Magnitude
+IsUnderwater -- Dive, Surf, Whirlpool
+IsInAir -- Fly, Smack Down, Sky Uppercut, Hurricane, Gravity
+IsProtected
+IsFlinching
+IsConfused
+IsHelped -- Helping Hand
+IsCharging --Solar Beam, Sky Attack, Power Herb will affect
+IsRecharging --Hyper Beam, Blast Burn, etc
+IsMagicCoat --These and below are not as useful and thus wont be in initial release
+IsRooted
+IsAquaRing
+IsEnduring
+IsIdentified
+IsNightmared
+IsInfatuated
+IsCursed
+IsHealBlocked
+IsMagnetRise -- Magnet Rise
+IsTormented
+IsEmbargoed
+IsAiming -- Mind Reader, Lock On
+IsTarred
+IsMagicPowdered
+IsTrickOrTreat
+IsForestCurse
+IsCenterOfAttention
+IsSoaked
+IsSeeded
+IsTaunted
+IsImprisoning -- Is the user of Imprison, in which there will be a check at Move selection for both opp mon
+IsPreparing --Shell Trap, Focus Punch
+IsEncored
+IsWideGuarded
+IsKingsShielded
+IsObstructing
+PerishCount
+BoundCount -- Wrap/Infestation/Sand Tomb turns
+IsTrapped
+IsRoosting
+IsSubstitute
+
+--Field
+
+Weather
+Terrain
+P1Effects --List, eg Screens, Tailwind, Wildfire, Swamp, Vine lash
+P2Effects --List '' ''
+BothEffects --List eg Neutralizing Gas, Gravity, Trick Room, Magic Room, Wonder Room
+P1Hazards --List, eg Rocks, Spikes, Steelspikes, Webs
+P2Hazards
+
+--Battle_Player
+
+LeftMon
+RightMon
+PartyMon1
+PartyMon2
+
+--Move
+
+ID
+Name
+BasePower
+BaseAcc
+CantMiss
+Effect
+Priority
+Category --Physical, Special, Status
+Type
+MaxPP
+TargetSpread -- Only Self, All enemy, All ally, One Enemy, One Ally, One Any, All, None
+IsContact
+CanSnatch
+CanMagicCoat
+CanMirrorMove
+IsSound
+IsFlyingPress
+
+--Battle_Queue --For once moves are "locked in"
+
+User --Mon
+Target --If Applicable, The slots, not the pokemon itself
+Priority
+IgnoresRedirect -- Stalwart, Snipe Shot
+Speed
+ForceFirst
+ForceLast
+
+--Type
+ID
+Name
+Weakness
+Resist
+Immunity
+
+--Ability
+
+ID
+Name
+SentOutEffect
+BattleEffect
+StatusEffect
+OtherEffect
+
+--
