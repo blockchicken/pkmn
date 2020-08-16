@@ -1,4 +1,5 @@
-def UseHelpingHand(User, Player):
+class HelpingHand(Move):
+    #User, Player):
     pass
 
 def UseSwordsDance(User):

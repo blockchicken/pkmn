@@ -151,22 +151,24 @@ class Battle_Player(Player):
             [self.LeftMon, self.RightMon]
 
 class Move:
-    def __init__(self, ID, Name, BasePower, BaseAcc, CantMiss, Priority, Category, Type
-                , MaxPP, TargetSpread, IsContact, CanSnatch, CanMagicCoat, CanMirrorMove
-                , IsSound, IsFlyingPress):
+    def __init__(self, ID, Name, Type, BasePower, BaseAcc, Priority, Category, 
+                , BasePP, Spread, IsContact, CanSnatch, CanMagicCoat
+                , IsSound, MaxPower, EffRate, IsJaw, IsPunch, IsFlyingPress):
         self.ID = ID
         self.Name = Name
+        self.Type = Type
         self.BasePower = BasePower
         self.BaseAcc = BaseAcc
-        self.CantMiss = CantMiss
         self.Priority = Priority
         self.Category = Category
-        self.Type = Type
-        self.MaxPP = MaxPP
-        self.TargetSpread = TargetSpread
+        self.BasePP = BasePP
+        self.Spread = Spread
         self.IsContact = IsContact
         self.CanSnatch = CanSnatch
         self.CanMagicCoat = CanMagicCoat
-        self.CanMirrorMove = CanMirrorMove
         self.IsSound = IsSound
+        self.MaxPower = MaxPower
+        self.EffRate = EffRate
+        self.IsJaw = IsJaw
+        self.IsPunch = IsPunch
         self.IsFlyingPress = IsFlyingPress
