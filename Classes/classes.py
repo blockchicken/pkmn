@@ -64,6 +64,7 @@ class Battle_Mon(Team_Mon):
         self.MovePP3 = 1
         self.MovePP4 = 1
         self.IsKnockedOut = False
+        self.Position = 'Left'
         self.ATKStage = 0
         self.DEFStage = 0
         self.SPATKStage = 0
@@ -138,6 +139,7 @@ class Battle_Player(Player):
         self.PartyMon2 = self.Mon2
         self.PartyMon3 = self.Mon3
         self.PartyMon4 = self.Mon4
+        self.FieldEffs = {}
     
     def GetTeam(self):
         return [self.PartyMon1, self.PartyMon2, self.PartyMon3, self.PartyMon4]
@@ -151,9 +153,9 @@ class Battle_Player(Player):
             [self.LeftMon, self.RightMon]
 
 class Move:
-    def __init__(self, ID, Name, Type, BasePower, BaseAcc, Priority, Category, 
+    def __init__(self, ID, Name, Type, BasePower, BaseAcc, Priority, Category
                 , BasePP, Spread, IsContact, CanSnatch, CanMagicCoat
-                , IsSound, MaxPower, EffRate, IsJaw, IsPunch, IsFlyingPress):
+                , IsSound, MaxPower, EffRate, IsJaw, IsPunch):
         self.ID = ID
         self.Name = Name
         self.Type = Type
@@ -171,4 +173,12 @@ class Move:
         self.EffRate = EffRate
         self.IsJaw = IsJaw
         self.IsPunch = IsPunch
-        self.IsFlyingPress = IsFlyingPress
+
+class Field:
+    def __init__(self, TurnCount = 0
+                , Weather = 'Clear', Terrain = 'None'
+                , FieldEffs = {}):
+        self.TurnCount = TurnCount
+        self.Weather = Weather
+        self.Terrain = Terrain
+        self.FieldEffs = FieldEffs

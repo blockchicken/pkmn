@@ -1,4 +1,4 @@
---Pokemon_base
+--Mon
 
 ID
 DexNum
@@ -37,7 +37,7 @@ IVDEF
 IVSPATK
 IVSPDEF
 IVSPD
-NATURE
+Nature
 IsGmax
 
 --Battle_Mon
@@ -110,6 +110,17 @@ BothEffects --List eg Neutralizing Gas, Gravity, Trick Room, Magic Room, Wonder 
 P1Hazards --List, eg Rocks, Spikes, Steelspikes, Webs
 P2Hazards
 
+--Player
+
+ID
+Name
+Mon1
+Mon2
+Mon3
+Mon4
+Mon5
+Mon6
+
 --Battle_Player
 
 LeftMon
@@ -146,13 +157,6 @@ IgnoresRedirect -- Stalwart, Snipe Shot
 Speed
 ForceFirst
 ForceLast
-
---Type
-ID
-Name
-Weakness
-Resist
-Immunity
 
 --Ability
 

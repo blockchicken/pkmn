@@ -37,9 +37,9 @@ def GetNature(name,stat):
     else:
         return 1.0
 
-def GetTypeMult(Move,Target,IsFlyingPress=False):
+def GetTypeMult(Move,TypeList,IsFlyingPress=False):
     mult = 1.0
-    typelist = [Target.Type1, Target.Type2]
+    typelist = TypeList
     for i in typelist:
         if i == 'Fire':
             if Move in ('Ground', 'Rock', 'Water'):
@@ -148,6 +148,16 @@ def GetTypeMult(Move,Target,IsFlyingPress=False):
         return mult * GetTypeMult('Flying', Target, False)
     else:
         return mult
+
+def MinusPP(Move,User):
+    if User.Move1 == Move:
+        User.MovePP1 -= 1
+    elif User.Move2 == Move:
+        User.MovePP2 -= 1
+    elif User.Move3 == Move:
+        User.MovePP3 -= 1
+    elif User.Move4 == Move:
+        User.MovePP4 -= 1
 
 # def UseMove(User,Move,Target):
 #     if Target = 'Self':
