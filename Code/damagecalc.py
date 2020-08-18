@@ -64,6 +64,7 @@ def DamageCalc(Move, User, Target, Power, Player, TargetPlayer, Field, IsSpread,
                     modifier = modifier * 0.5
          
     # Screens
+    
     if User.Ability != 'Infiltrator':
         if 'Light Screen' in TargetPlayer.FieldEffs or 'Aurora Veil' in TargetPlayer.FieldEffs:
             if Move.Category == 'Special':
@@ -78,6 +79,19 @@ def DamageCalc(Move, User, Target, Power, Player, TargetPlayer, Field, IsSpread,
                     modifier = modifier * 0.66
                 else:
                     modifier = modifier * 0.5
+
+    # Minimize Nonsense + Dig/Fly/Dive Nonsense
+    #### Literally no one knows that these are a thing, even pro VGC players
+    ###### The Accuracy bypass will be in a separate check
+
+    if Target.IsMinimized: # I was really tempted to just call this 'IsSmol'
+    	if Move.Name in ('Body Slam', 'Dragon Rush', 'Flying Press', 'Heat Crash'
+    					, 'Heavy Slam', 'Malicious Moonsault', 'Steamroller', 'Stomp'):
+    		modifier = modifier * 2
+
+    if Target.
+
+
 
     # Ability Modifiers
 

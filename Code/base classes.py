@@ -87,6 +87,7 @@ class Battle_Mon(Team_Mon):
         self.IsHelped = False
         self.IsCharging = False
         self.IsRecharging = False
+        self.IsMinimized = False
     
     def calc_stats(self):
         self.HP = math.floor((2 * self.BaseHP + self.IVHP + math.floor(self.EVHP/4)) * 50 / 100) + 60
