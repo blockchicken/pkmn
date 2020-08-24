@@ -156,7 +156,7 @@ class Battle_Player(Player):
 class Move:
     def __init__(self, ID, Name, Type, BasePower, BaseAcc, Priority, Category
                 , BasePP, Spread, IsContact, CanSnatch, CanMagicCoat
-                , IsSound, MaxPower, EffRate, IsJaw, IsPunch):
+                , IsSound, MaxPower, EffRate, IsJaw, IsPunch, EffSheerForce):
         self.ID = ID
         self.Name = Name
         self.Type = Type
@@ -174,6 +174,7 @@ class Move:
         self.EffRate = EffRate
         self.IsJaw = IsJaw
         self.IsPunch = IsPunch
+        self.EffSheerForce = self.EffSheerForce
 
 class Field:
     def __init__(self, TurnCount = 0

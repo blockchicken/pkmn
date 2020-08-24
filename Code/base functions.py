@@ -159,6 +159,24 @@ def MinusPP(Move,User):
     elif User.Move4 == Move:
         User.MovePP4 -= 1
 
+def StageCalc(Stat,Stage,Unaware = False):
+    if Unaware == True:
+        return 1
+    if Stat in ('ATK', 'DEF', 'SPATK', 'SPDEF', 'SPD'):
+        if Stage == 0:
+            return 1
+        elif Stage > 0:
+            return (2 + Stage) / 2
+        elif Stage < 0:
+            return 2 / (2 + math.abs(Stage))
+    if Stat in ('Acc', 'Eva'):
+        if Stage == 0:
+            return 1
+        elif Stage > 0:
+            return (3 + Stage) / 3
+        elif Stage < 0:
+            return 3 / (3 + math.abs(Stage))
+    return 1
 # def UseMove(User,Move,Target):
 #     if Target = 'Self':
 #     elif Target = 'None'
