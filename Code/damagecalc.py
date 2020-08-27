@@ -101,15 +101,62 @@ def DamageCalc(Move, User, Target, Power, Player, TargetPlayer, Field, IsSpread,
 
     ### Analytic
 
+    if User.Ability == 'Analytic':
+    	#if moving last
+    	modifier = modifier * 1.3
+
+    ### Aura Break/Dark Aura/Fairy Aura
+
+    if Player.LeftMon.Ability == 'Fairy Aura' or Player.RightMon.Ability == 'Fairy Aura' or TargetPlayer.LeftMon.Ability == 'Fairy Aura' or TargetPlayer.RightMon.Ability == 'Fairy Aura':
+    	if Player.LeftMon.Ability == 'Aura Break' or Player.RightMon.Ability == 'Aura Break' or TargetPlayer.LeftMon.Ability == 'Aura Break' or TargetPlayer.RightMon.Ability == 'Aura Break':
+    		if movetype == 'Fairy':
+    			modifier = modifier / 1.33
+    	else:
+    		if movetype == 'Fairy':
+    			modifier = modifier * 1.33
+  
+    if Player.LeftMon.Ability == 'Dark Aura' or Player.RightMon.Ability == 'Dark Aura' or TargetPlayer.LeftMon.Ability == 'Dark Aura' or TargetPlayer.RightMon.Ability == 'Dark Aura':
+    	if Player.LeftMon.Ability == 'Aura Break' or Player.RightMon.Ability == 'Aura Break' or TargetPlayer.LeftMon.Ability == 'Aura Break' or TargetPlayer.RightMon.Ability == 'Aura Break':
+    		if movetype == 'Dark':
+    			modifier = modifier / 1.33
+    	else:
+    		if movetype == 'Dark':
+    			modifier = modifier * 1.33     
+
     ### Battery
 
+    if Player.LeftMon.Ability == 'Battery' and Player.RightMon.Name == User.Name:
+    	if Move.Category == 'Special':
+    		modifier = modifier * 1.3
+    elif Player.RightMon.Ability == 'Battery' and Player.LeftMon.Name == User.Name:
+    	if Move.Category == 'Special':
+    		modifier = modifier * 1.3
+
     ### Blaze
+
+    if movetype == 'Fire' and (3 * User.CurrentHP) <= (User.HP):
+    	modifier = modifier * 1.5
 
     ### Dry Skin
 
     if Target.Ability == 'Dry Skin':
     	if movetype == 'Fire':
     		modifier = modifier * 1.25
+
+    ### Filter/Solid Rock/Prism Armor
+    if Target.Ability in ('Filter','Solid Rock','Prism Armor'):
+        if GetTypeMult(movetype, targettype, Move.Name == 'Flying Press') > 1:
+    		modifier = modifier / 1.25
+
+    ### Flare Boost
+    if User.Ability == 'Flare Boost' and User.Status = 'Burn':
+    	if Move.Category == 'Special':
+    		basepower = basepower * 1.5
+
+    ### Flower Gift
+    if Field.Weather in ('Harsh Sunlight', 'Extremely Harsh Sunlight'):
+	    if Player.RightMon.Ability == 'Flower Gift' or Player.LeftMon.Ability == 'Flower Gift':
+	    	
 
     ### Fluffy
 
@@ -129,6 +176,16 @@ def DamageCalc(Move, User, Target, Power, Player, TargetPlayer, Field, IsSpread,
 
     if User.Ability == 'Normalize':
     	movetype = 'Normal'
+
+    ### Rivalry
+
+    if User.Ability == 'Rivalry':
+    	if User.Gender == 'F' and Target.Gender == User.Gender:
+    		basepower = basepower * 1.25
+    	elif User.Gender == 'M' and Target.Gender == 'F':
+    		basepower = basepower * 0.75
+    	elif User.Gender == 'F' and Target.Gender == 'M':
+    		basepower = basepower * 0.75
 
     ### Sheer Force
 
@@ -151,7 +208,7 @@ def DamageCalc(Move, User, Target, Power, Player, TargetPlayer, Field, IsSpread,
     # Other Modifiers
 
     if User.IsHelped:
-    	modifier = modifier * 1.5
+    	basepower = basepower * 1.5
 
     # Generate random int between 85-100 incl, / 100
     modifier = modifier * (random.randint(85,100) / 100)
@@ -163,41 +220,52 @@ def DamageCalc(Move, User, Target, Power, Player, TargetPlayer, Field, IsSpread,
     modifier = modifier * GetTypeMult(movetype, targettype, Move.Name == 'Flying Press')
 
     # Get Weather/Terrain from Field
-    if Field.Weather == 'Harsh Sunlight':
-        if movetype == 'Fire':
-        	modifier = modifier * 1.5
-        if movetype == 'Water':
-        	modifier = modifier * 0.5
+    if Player.LeftMon.Ability not in ('Air Lock','Cloud Nine') and Player.RightMon.Ability not in ('Air Lock','Cloud Nine') and TargetPlayer.LeftMon.Ability not in ('Air Lock','Cloud Nine') and TargetPlayer.RightMon.Ability not in ('Air Lock','Cloud Nine'):
+	    if Field.Weather == 'Harsh Sunlight':
+	        if movetype == 'Fire':
+	        	modifier = modifier * 1.5
+	        if movetype == 'Water':
+	        	modifier = modifier * 0.5
 
-    elif Field.Weather == 'Rain':
-        if movetype == 'Water':
-        	modifier = modifier * 1.5
-        if movetype == 'Fire':
-        	modifier = modifier * 0.5
-        if Move.Name in ('Solar Beam', 'Solar Blade'):
-        	basepower = basepower * 0.5
+	    elif Field.Weather == 'Rain':
+	        if movetype == 'Water':
+	        	modifier = modifier * 1.5
+	        if movetype == 'Fire':
+	        	modifier = modifier * 0.5
+	        if Move.Name in ('Solar Beam', 'Solar Blade'):
+	        	basepower = basepower * 0.5
 
-    elif Field.Weather == 'Extremely Harsh Sunlight':
-        pass
-    elif Field.Weather == 'Heavy Rain':
-        pass
-    elif Field.Weather == 'Sandstorm':
-        pass
-    elif Field.Weather == 'Hail':
-        pass
-    elif Field.Weather == 'Strong Winds':
-    	if 'Flying' in targettype:
-        	if movetype in ('Electric', 'Ice', 'Rock'):
-        		modifier = modifier * 0.5
+	    elif Field.Weather == 'Extremely Harsh Sunlight':
+	        pass
+	    elif Field.Weather == 'Heavy Rain':
+	        pass
+	    elif Field.Weather == 'Sandstorm':
+	        pass
+	    elif Field.Weather == 'Hail':
+	        pass
+	    elif Field.Weather == 'Strong Winds':
+	    	if 'Flying' in targettype:
+	        	if movetype in ('Electric', 'Ice', 'Rock'):
+	        		modifier = modifier * 0.5
 
     if Field.Terrain == 'Psychic':
-        pass
+    	if movetype == 'Psychic':
+	        if 'Flying' not in usertype and User.Ability != 'Levitate' and not User.IsInAir:
+	        	basepower = basepower * 1.3
     elif Field.Terrain == 'Grassy':
-        pass
+        if movetype == 'Grass':
+	        if 'Flying' not in usertype and User.Ability != 'Levitate' and not User.IsInAir:
+	        	basepower = basepower * 1.3
+	    if Move.Name in ('Earthquake', 'Bulldoze', 'Magnitude') and not Target.IsUnderground:
+	    	basepower = basepower * 0.5
     elif Field.Terrain == 'Misty':
-        pass
+        if movetype == 'Dragon':
+        	if 'Flying' not in targettype and Target.Ability != 'Levitate' and not Target.IsInAir:
+        		basepower = basepower * 0.5
     elif Field.Terrain == 'Electric':
-        pass
+        if movetype == 'Electric':
+	        if 'Flying' not in usertype and User.Ability != 'Levitate' and not User.IsInAir:
+	        	basepower = basepower * 1.3
 
 
     # Multiply it all together
