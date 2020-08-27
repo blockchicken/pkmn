@@ -90,14 +90,41 @@ def DamageCalc(Move, User, Target, Power, Player, TargetPlayer, Field, IsSpread,
     	if Move.Name in ('Gust', 'Twister'):
     		modifier = modifier * 2
 
+    ### Techno Blast
+
+    if Move.Name == 'Techno Blast':
+        if User.Item == 'Douse Drive':
+            movetype = 'Water'
+        elif User.Item == 'Burn Drive':
+            movetype = 'Fire'
+        elif User.Item == 'Chill Drive':
+            movetype = 'Ice'
+        elif User.Item == 'Shock Drive':
+            movetype = 'Electric'
+
     # Ability Modifiers
 
-    ### Aerilate
+    ### Aerilate/Galvanize/Refrigerate/Pixilate
 
     if User.Ability == 'Aerilate':
     	if movetype == 'Normal':
     		movetype = 'Flying'
-    		modifier = modifier * 1.2
+    		basepower = basepower * 1.2
+
+    if User.Ability == 'Galvanize':
+        if movetype == 'Normal':
+            movetype = 'Electric'
+            basepower = basepower * 1.2
+
+    if User.Ability == 'Refrigerate':
+        if movetype == 'Normal':
+            movetype = 'Ice'
+            basepower = basepower * 1.2
+
+    if User.Ability == 'Pixilate':
+        if movetype == 'Normal':
+            movetype = 'Fairy'
+            basepower = basepower * 1.2
 
     ### Analytic
 
@@ -132,10 +159,22 @@ def DamageCalc(Move, User, Target, Power, Player, TargetPlayer, Field, IsSpread,
     	if Move.Category == 'Special':
     		modifier = modifier * 1.3
 
-    ### Blaze
+    ### Blaze/Overgrow/Swarm/Torrent
+    if User.Ability == 'Blaze':
+        if movetype == 'Fire' and (3 * User.CurrentHP) <= (User.HP):
+        	modifier = modifier * 1.5
+    
+    if User.Ability == 'Overgrow'
+        if movetype == 'Grass' and (3 * User.CurrentHP) <= (User.HP):
+            modifier = modifier * 1.5
 
-    if movetype == 'Fire' and (3 * User.CurrentHP) <= (User.HP):
-    	modifier = modifier * 1.5
+    if User.Ability == 'Swarm'
+        if movetype == 'Bug' and (3 * User.CurrentHP) <= (User.HP):
+            modifier = modifier * 1.5
+
+    if User.Ability == 'Torrent'
+        if movetype == 'Water' and (3 * User.CurrentHP) <= (User.HP):
+            modifier = modifier * 1.5
 
     ### Dry Skin
 
@@ -166,11 +205,89 @@ def DamageCalc(Move, User, Target, Power, Player, TargetPlayer, Field, IsSpread,
     	if Move.IsContact and User.Ability != 'Long Reach':
     		modifier = modifier * 0.5
 
+    ### Friend Guard
+
+    if TargetPlayer.LeftMon.Ability == 'Friend Guard' and TargetPlayer.RightMon.Name == Target.Name:
+        modifier = modifier / 1.25
+    elif TargetPlayer.RightMon.Ability == 'Friend Guard' and TargetPlayer.LeftMon.Name == Target.Name:
+        modifier = modifier / 1.25
+
     ### Fur Coat
 
     if Target.Ability == 'Fur Coat':
     	if Move.Category == 'Physical':
     		modifier = modifier * 0.5
+
+    ### Gorilla Tactics
+
+    if User.Ability == 'Gorilla Tactics':
+        if Move.Category == 'Physical':
+            effatk = effatk * 1.5
+
+    ### Grass Pelt
+
+    if Target.Ability == 'Grass Pelt':
+        if Move.Category == 'Physical':
+            effdef = effdef * 1.5
+
+    ### Heatproof
+
+    if Target.Ability == 'Heatproof':
+        if movetype == 'Fire':
+            modifier = modifier * 0.5
+
+    ### Huge Power/ Pure Power
+
+    if User.Ability in ('Huge Power', 'Pure Power'):
+        if Move.Category == 'Physical':
+            effatk = effatk * 2
+
+    ### Hustle
+
+    if User.Ability == 'Hustle':
+        if Move.Category == 'Physical':
+            effatk = effatk * 1.5
+
+    ### Ice Scales
+
+    if Target.Ability == 'Ice Scales':
+        if Move.Category == 'Special':
+            modifier = modifier * 0.5
+
+    ### Iron Fist
+
+    if User.Ability == 'Iron Fist':
+        if Move.IsPunch:
+            basepower = basepower * 1.2
+
+    ### Liquid Voice
+
+    if User.Ability == 'Liquid Voice':
+        if Move.IsSound:
+            movetype = 'Water'
+
+    ### Mega Launcher
+
+    if User.Ability == 'Mega Launcher':
+        if Move.Name in ('Aura Sphere', 'Dark Pulse', 'Dragon Pulse', 'Origin Pulse', 'Terrain Pulse', 'Water Pulse'):
+           basepower = basepower * 1.5 
+
+    ### Minus/Plus
+
+    if Player.RightMon.Ability in ('Plus', 'Minus') and Player.LeftMon.Ability in ('Plus', 'Minus'):
+        if Move.Category == 'Special':
+            effatk = effatk * 1.5
+
+    ### Multiscale/Shadow Shield
+
+    if Target.Ability in ('Multiscale', 'Shadow Shield') and Target.CurrentHP == Target.HP:
+        modifier = modifier * 0.5
+
+    ### Neuroforce
+
+    if User.Ability == 'Neuroforce':
+        if GetTypeMult(movetype, targettype, Move.Name == 'Flying Press') > 1:
+            modifier = modifier * 1.25
 
     ### Normalize
 
@@ -182,16 +299,99 @@ def DamageCalc(Move, User, Target, Power, Player, TargetPlayer, Field, IsSpread,
     if User.Ability == 'Rivalry':
     	if User.Gender == 'F' and Target.Gender == User.Gender:
     		basepower = basepower * 1.25
+        if User.Gender == 'M' and Target.Gender == User.Gender:
+            basepower = basepower * 1.25
     	elif User.Gender == 'M' and Target.Gender == 'F':
     		basepower = basepower * 0.75
     	elif User.Gender == 'F' and Target.Gender == 'M':
     		basepower = basepower * 0.75
+
+    ### Power Spot
+
+    if Player.LeftMon.Ability == 'Power Spot' and Player.RightMon.Name == User.Name:
+        basepower = basepower * 1.3
+    elif Player.RightMon.Ability == 'Power Spot' and Player.LeftMon.Name == User.Name:
+        basepower = basepower * 1.3
+
+    ### Punk Rock
+
+    if User.Ability == 'Punk Rock':
+        if Move.IsSound:
+            basepower = basepower * 1.3
+
+    if Target.Ability == 'Punk Rock':
+        if Move.IsSound:
+            modifier = modifier * 0.5
+
+    ### Reckless
+
+    if User.Ability == 'Reckless' and Move.Name in ('Brave Bird', 'Double Edge', 'Flare Blitz', 'Head Charge', 'Head Smash', 'High Jump Kick', 'Jump Kick', 'Light of Ruin', 'Submission', 'Take Down', 'Volt Tackle', 'Wood Hammer', 'Wild Charge'):
+        basepower = basepower * 1.2
+
+    ### Sand Force
+
+    if User.Ability == 'Sand Force':
+        if Field.Weather == 'Sandstorm':
+            if movetype in ('Rock', 'Ground', 'Steel'):
+                basepower = basepower * 1.3
+
+    ### Slow Start
+
+    if User.OtherEffs['Slow Start'] > 0:
+        if Category == 'Physical':
+            effatk = effatk * 0.5
 
     ### Sheer Force
 
     if User.Ability == 'Sheer Force':
     	if Move.EffSheerForce:
     		modifier = modifier * 1.3
+
+    ### Solar Power
+
+    if User.Ability == 'Solar Power':
+        if Field.Weather in ('Harsh Sunlight', 'Extremely Harsh Sunlight'):
+            if Move.Category == 'Special':
+                effatk = effatk * 1.5
+
+    ### Stakeout
+
+    if User.Ability == 'Stakeout' and Target.TurnsOnField == 0:
+        basepower = basepower * 2
+    
+    ### Steelworker
+
+    if User.Ability == 'Steelworker':
+        if movetype == 'Steel':
+            basepower = basepower * 1.5
+
+    ### Steely Spirit
+
+    if Player.LeftMon.Ability == 'Steely Spirit' or Player.RightMon.Ability == 'Steely Spirit':
+        if movetype == 'Steel':
+            basepower = basepower * 1.5
+
+    ### Strong Jaw
+
+    if User.Ability == 'Strong Jaw' and Move.IsJaw:
+        basepower = basepower * 1.5
+
+    ### Technician
+
+    if User.Ability == 'Technician':
+        if Power <= 60:
+            basepower = basepower * 1.5
+
+    ### Tough Claws
+
+    if User.Ability == 'Tough Claws' and Move.IsContact:
+        basepower = basepower * 1.3
+
+    ### Toxic Boost
+
+    if User.Ability == 'Toxic Boost' and User.Status in ('Poison', 'Toxic'):
+        if Move.Category == 'Physical':
+            basepower = basepower * 1.5
 
     ### Water Bubble
 
@@ -205,6 +405,76 @@ def DamageCalc(Move, User, Target, Power, Player, TargetPlayer, Field, IsSpread,
 
     # Item Modifiers
 
+    ### Adamant Orb
+
+    ### Assault Vest
+
+    ### Black Belt/Fist Plate
+
+    ### Black Glasses/Dread Plate
+
+    ### Charcoal/Flame Plate
+
+    ### Choice Band
+
+    ### Choice Specs
+
+    ### Deep Sea Scale
+
+    ### Deep Sea Tooth
+
+    ### Dragon Fang/Draco Plate
+
+    ### Eviolite
+
+    ### Expert Belt
+
+    ### Griseous Orb
+
+    ### Hard Stone/Stone Plate/Rock Incense
+
+    ### Life Orb
+
+    ### Light Ball
+
+    ### Lustrous Orb
+
+    ### Magnet/Zap Plate
+
+    ### Metal Coat/Iron Plate
+
+    ### Metal Powder
+
+    ### Miracle Seed/Meadow Plate/Rose Incense
+
+    ### Muscle Band 
+
+    ### Mystic Water/Splash Plate/Sea Incense/Wave Incense
+
+    ### Never Melt Ice/Icicle Plate
+
+    ### Pixie Plate
+
+    ### Poison Barb/Toxic Plate
+
+    ### Sharp Beak/Sky Plate
+
+    ### Silk Scarf
+
+    ### Silver Powder/Insect Plate
+
+    ### Soft Sand/Earth Plate
+
+    ### Soul Dew
+
+    ### Spell Tag/Spooky Plate
+
+    ### Thick Club
+
+    ### Twisted Spoon/Mind Plate/Odd Incense
+
+    ### Wise Glasses
+
     # Other Modifiers
 
     if User.IsHelped:
@@ -212,8 +482,6 @@ def DamageCalc(Move, User, Target, Power, Player, TargetPlayer, Field, IsSpread,
 
     # Generate random int between 85-100 incl, / 100
     modifier = modifier * (random.randint(85,100) / 100)
-
-    # Generate Spread Calc
 
 	# Type Effectiveness
 

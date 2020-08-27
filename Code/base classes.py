@@ -77,6 +77,7 @@ class Battle_Mon(Team_Mon):
         self.StatusTurns = 0
         self.LastMoveUsed = None
         self.TurnsOnField = 0
+        self.ItemIsUsed = False
         self.IsDisappeared = False
         self.IsUnderground = False
         self.IsUnderwater = False
@@ -88,6 +89,7 @@ class Battle_Mon(Team_Mon):
         self.IsCharging = False
         self.IsRecharging = False
         self.IsMinimized = False
+        self.OtherEffs = {}
     
     def calc_stats(self):
         self.HP = math.floor((2 * self.BaseHP + self.IVHP + math.floor(self.EVHP/4)) * 50 / 100) + 60
