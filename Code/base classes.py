@@ -77,6 +77,7 @@ class Battle_Mon(Team_Mon):
         self.StatusTurns = 0
         self.LastMoveUsed = None
         self.TurnsOnField = 0
+        self.IsDynamaxed = False 
         self.ItemIsUsed = False
         self.IsDisappeared = False
         self.IsUnderground = False
@@ -89,6 +90,10 @@ class Battle_Mon(Team_Mon):
         self.IsCharging = False
         self.IsRecharging = False
         self.IsMinimized = False
+        self.IsSoaked = False
+        self.IsMagicPowdered = False
+        self.IsForestCurse = False
+        self.IsTrickOrTreat = False
         self.OtherEffs = {}
     
     def calc_stats(self):

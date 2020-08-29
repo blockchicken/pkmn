@@ -5,23 +5,29 @@ def DamageCalc(Move, User, Target, Power, Player, TargetPlayer, Field, IsSpread,
     # Get effective ATK/DEF stat from User
     
     if Move.Category == 'Physical':
-    	effatk = User.ATK * StageCalc('ATK',User.ATKStage,Target.Ability == 'Unaware')
-    	effdef = Target.DEF * StageCalc('DEF',Target.DEFStage,User.Ability == 'Unaware')
+    	effatk = User.ATK * StageCalc('ATK',User.ATKStage,IsCritical,Target.Ability == 'Unaware')
+   		effdef = Target.DEF * StageCalc('DEF',Target.DEFStage,IsCritical,User.Ability == 'Unaware')
+    
     if Move.Category == 'Special':
-    	effatk = User.SPATK * StageCalc('SPATK',User.SPATKStage,Target.Ability == 'Unaware')
-    	effdef = Target.SPDEF * StageCalc('SPDEF',Target.SPDEFStage,User.Ability == 'Unaware')
+    	effatk = User.SPATK * StageCalc('SPATK',User.SPATKStage,IsCritical,Target.Ability == 'Unaware')
+   		effdef = Target.SPDEF * StageCalc('SPDEF',Target.SPDEFStage,IsCritical,User.Ability == 'Unaware')
 
     if Move.Name == 'Body Press':
-    	effatk = User.DEF * StageCalc('DEF',User.DEFStage) # Need to check Unaware
+    	effatk = User.DEF * StageCalc('ATK',User.DEFStage,IsCritical,Target.Ability == 'Unaware')
 
-    if Move.Name == 'Darkest Lariat':
+    if Move.Name in ('Darkest Lariat', 'Sacred Sword'):
     	effdef = Target.DEF 
 
-    # Just make sure nothing breaks 
-    if effatk < 1:
-        effatk = 1
-    if effdef < 1:
-        effdef = 1
+    if Move.Name in ('Psyshock', 'Psystrike', 'Secret Sword'):
+    	effdef = Target.DEF * StageCalc('DEF',Target.DEFStage,IsCritical,User.Ability == 'Unaware')
+
+    ### Photon Geyser 
+    if Move.Name == 'Photon Geyser':
+    	pass
+
+    ### Shell Side Arm
+    if Move.Name == 'Shell Side Arm':
+    	pass
 
     # Get Critical
     if IsCritical:
@@ -32,17 +38,36 @@ def DamageCalc(Move, User, Target, Power, Player, TargetPlayer, Field, IsSpread,
     
     # Determine Move's Type, User's Type
     movetype = Move.Type
+    
     usertype = [User.Type1, User.Type2]
+    
     targettype = [Target.Type1, Target.Type2]
-    ### Add in logic for Soak/ForestCurse/TrickOrTreat/MagicPowder/Electrify/IonDeluge, etc
+    
+    ### Soak
+    if User.IsSoaked:
+    	usertype = ['Water']
+    if Target.IsSoaked:
+    	targettype = ['Water']
 
-    # STAB
+    ### Magic Powder
+    if User.IsMagicPowdered:
+    	usertype = ['Psychic']
+    if Target.IsMagicPowdered:
+    	targettype = ['Psychic']
 
-    if movetype in usertype:
-    	if User.Ability == 'Adapability':
-    		modifier = modifier * 2
-    	else:
-    		modifier = modifier * 1.5
+    ### Forest Curse
+    if User.IsForestCurse and 'Grass' not in usertype:
+    	usertype.append('Grass')
+    if Target.IsForestCurse and 'Grass' not in targettype:
+    	targettype.append('Grass')	
+
+    ### Trick-or-Treat
+    if User.IsTrickOrTreat and 'Ghost' not in usertype:
+    	usertype.append('Ghost')
+    if Target.IsTrickOrTreat and 'Ghost' not in targettype:
+    	targettype.append('Ghost')	
+
+    ### Add in logic for Electrify/IonDeluge, etc
 
     # Check for Burn/Guts/Facade
     
@@ -407,73 +432,205 @@ def DamageCalc(Move, User, Target, Power, Player, TargetPlayer, Field, IsSpread,
 
     ### Adamant Orb
 
+    if User.DexNo == 483 and User.Item == 'Adamant Orb':
+    	if movetype in ('Dragon', 'Steel'):
+    		basepower = basepower * 1.2
+
     ### Assault Vest
+
+    if Target.Item == 'Assault Vest':
+    	if Move.Category == 'Special' and Move.Name not in ('Psyshock','Psystrike','Sacred Sword'):
+    		effdef = effdef * 1.5
 
     ### Black Belt/Fist Plate
 
+    if User.Item in ('Black Belt', 'Fist Plate'):
+    	if movetype == 'Fighting':
+    		basepower = basepower * 1.2
+
     ### Black Glasses/Dread Plate
+
+    if User.Item in ('Black Glasses', 'Dread Plate'):
+    	if movetype == 'Dark':
+    		basepower = basepower * 1.2
 
     ### Charcoal/Flame Plate
 
+    if User.Item in ('Charcoal', 'Flame Plate'):
+    	if movetype == 'Fire':
+    		basepower = basepower * 1.2
+
     ### Choice Band
+
+    if User.Item == 'Choice Band' and Move.Category == 'Physical' and not User.IsDynamaxed:
+    	effatk = effatk * 1.5
 
     ### Choice Specs
 
+    if User.Item == 'Choice Specs' and Move.Category == 'Special' and not User.IsDynamaxed:
+    	effatk = effatk * 1.5
+
     ### Deep Sea Scale
+
+    if Target.DexNo == 366 and Target.Item == 'Deep Sea Scale':
+		if Move.Category == 'Special' and Move.Name not in ('Psyshock','Psystrike','Sacred Sword'):
+    		effdef = effdef * 2
 
     ### Deep Sea Tooth
 
-    ### Dragon Fang/Draco Plate
+    if User.DexNo == 366 and User.Item == 'Deep Sea Tooth' and Move.Category == 'Special':
+    	effatk = effatk * 2
 
+    ### Dragon Fang/Draco Plate
+    
+    if User.Item in ('Dragon Fang', 'Draco Plate'):
+    	if movetype == 'Dragon':
+    		basepower = basepower * 1.2
+    
     ### Eviolite
+
+    if Target.Item == 'Eviolite' and Target.IsNFE:
+    	effdef = effdef * 1.5
 
     ### Expert Belt
 
+    if GetTypeMult(movetype, targettype, Move.Name == 'Flying Press') > 1:
+    	modifier = modifier * 1.2
+
     ### Griseous Orb
 
-    ### Hard Stone/Stone Plate/Rock Incense
+    if User.DexNo == 487 and User.Item == 'Griseous Orb':
+    	if movetype in ('Dragon', 'Ghost'):
+    		basepower = basepower * 1.2
 
+    ### Hard Stone/Stone Plate/Rock Incense
+    
+    if User.Item in ('Hard Stone', 'Stone Plate', 'Rock Incense'):
+    	if movetype == 'Rock':
+    		basepower = basepower * 1.2
+    
     ### Life Orb
+
+    if User.Item == 'Life Orb':
+    	basepower = basepower * (5324/4096)
 
     ### Light Ball
 
+	if User.DexNo == 25 and User.Item == 'Light Ball':
+    	effatk = effatk * 2
+
     ### Lustrous Orb
 
+    if User.DexNo == 484 and User.Item == 'Lustrous Orb':
+    	if movetype in ('Dragon', 'Water'):
+    		basepower = basepower * 1.2
+
     ### Magnet/Zap Plate
-
+    
+    if User.Item in ('Magnet', 'Zap Plate'):
+    	if movetype == 'Electric':
+    		basepower = basepower * 1.2
+    
     ### Metal Coat/Iron Plate
-
+    
+    if User.Item in ('Metal Coat', 'Iron Plate'):
+    	if movetype == 'Steel':
+    		basepower = basepower * 1.2
+    
     ### Metal Powder
 
-    ### Miracle Seed/Meadow Plate/Rose Incense
+    if Target.DexNo == 132 and Target.Item == 'Metal Powder':
+    	### Note: Doesn't apply when Transformed, will need to add flag
+    	### but Transform will likely be implemented much later anyway
+    	if Move.Category == 'Physical' or Move.Name in ('Psyshock','Psystrike','Sacred Sword'):
+    		effdef = effdef * 2
 
+    ### Miracle Seed/Meadow Plate/Rose Incense
+    
+    if User.Item in ('Miracle Seed', 'Meadow Plate', 'Rose Incense'):
+    	if movetype == 'Grass':
+    		basepower = basepower * 1.2
+    
     ### Muscle Band 
+    
+    if User.Item == 'Muscle Band' and Move.Category == 'Physical':
+    	basepower = basepower * 1.1
 
     ### Mystic Water/Splash Plate/Sea Incense/Wave Incense
-
+    
+    if User.Item in ('Mystic Water', 'Splash Plate', 'Sea Incense', 'Wave Incense'):
+    	if movetype == 'Water':
+    		basepower = basepower * 1.2
+    
     ### Never Melt Ice/Icicle Plate
-
+    
+    if User.Item in ('Never Melt Ice', 'Icicle Plate'):
+    	if movetype == 'Ice':
+    		basepower = basepower * 1.2
+    
     ### Pixie Plate
-
+    
+    if User.Item in ('Pixie Plate'):
+    	if movetype == 'Fairy':
+    		basepower = basepower * 1.2
+    
     ### Poison Barb/Toxic Plate
-
+    
+    if User.Item in ('Poison Barb', 'Toxic Plate'):
+    	if movetype == 'Poison':
+    		basepower = basepower * 1.2
+    
     ### Sharp Beak/Sky Plate
-
+    
+    if User.Item in ('Sharp Beak', 'Sky Plate'):
+    	if movetype == 'Flying':
+    		basepower = basepower * 1.2
+    
     ### Silk Scarf
-
+    
+    if User.Item in ('Silk Scarf'):
+    	if movetype == 'Normal':
+    		basepower = basepower * 1.2
+    
     ### Silver Powder/Insect Plate
-
+    
+    if User.Item in ('Silver Powder', 'Insect Plate'):
+    	if movetype == 'Bug':
+    		basepower = basepower * 1.2
+    
     ### Soft Sand/Earth Plate
-
+    
+    if User.Item in ('Soft Sand', 'Earth Plate'):
+    	if movetype == 'Ground':
+    		basepower = basepower * 1.2
+    
     ### Soul Dew
 
-    ### Spell Tag/Spooky Plate
+    if User.DexNo in (380,381) and User.Item == 'Soul Dew':
+    	if movetype in ('Dragon', 'Psychic'):
+    		basepower = basepower * 1.2
 
+    ### Spell Tag/Spooky Plate
+    
+    if User.Item in ('Spell Tag', 'Spooky Plate'):
+    	if movetype == 'Ghost':
+    		basepower = basepower * 1.2
+    
     ### Thick Club
 
-    ### Twisted Spoon/Mind Plate/Odd Incense
+	if User.DexNo in (104,105) and User.Item == 'Thick Club' and Move.Category == 'Physical':
+    	effatk = effatk * 2
 
+    ### Twisted Spoon/Mind Plate/Odd Incense
+    
+    if User.Item in ('Twisted Spoon', 'Mind Plate', 'Odd Incense'):
+    	if movetype == 'Psychic':
+    		basepower = basepower * 1.2
+    
     ### Wise Glasses
+
+    if User.Item == 'Wise Glasses' and Move.Category == 'Special':
+    	basepower = basepower * 1.1
 
     # Other Modifiers
 
@@ -481,13 +638,23 @@ def DamageCalc(Move, User, Target, Power, Player, TargetPlayer, Field, IsSpread,
     	basepower = basepower * 1.5
 
     # Generate random int between 85-100 incl, / 100
+    
     modifier = modifier * (random.randint(85,100) / 100)
+
+    # STAB
+
+    if movetype in usertype:
+    	if User.Ability == 'Adapability':
+    		modifier = modifier * 2
+    	else:
+    		modifier = modifier * 1.5
 
 	# Type Effectiveness
 
     modifier = modifier * GetTypeMult(movetype, targettype, Move.Name == 'Flying Press')
 
-    # Get Weather/Terrain from Field
+    ### Weather
+    
     if Player.LeftMon.Ability not in ('Air Lock','Cloud Nine') and Player.RightMon.Ability not in ('Air Lock','Cloud Nine') and TargetPlayer.LeftMon.Ability not in ('Air Lock','Cloud Nine') and TargetPlayer.RightMon.Ability not in ('Air Lock','Cloud Nine'):
 	    if Field.Weather == 'Harsh Sunlight':
 	        if movetype == 'Fire':
@@ -504,38 +671,73 @@ def DamageCalc(Move, User, Target, Power, Player, TargetPlayer, Field, IsSpread,
 	        	basepower = basepower * 0.5
 
 	    elif Field.Weather == 'Extremely Harsh Sunlight':
-	        pass
+	        if movetype == 'Fire':
+	        	modifier = modifier * 1.5
+	        if movetype == 'Water':
+	        	modifier = modifier * 0
+
 	    elif Field.Weather == 'Heavy Rain':
-	        pass
+	        if movetype == 'Water':
+	        	modifier = modifier * 1.5
+	        if movetype == 'Fire':
+	        	modifier = modifier * 0
+	        if Move.Name in ('Solar Beam', 'Solar Blade'):
+	        	basepower = basepower * 0.5
+
 	    elif Field.Weather == 'Sandstorm':
-	        pass
+	    	if 'Rock' in targettype:
+	    		if Move.Category == 'Special' and Move.Name not in ('Psyshock','Psystrike','Sacred Sword'):
+    				effdef = effdef * 1.5
+    		if Move.Name in ('Solar Beam', 'Solar Blade'):
+    			basepower = basepower * 0.5
+
 	    elif Field.Weather == 'Hail':
-	        pass
+	        if Move.Name in ('Solar Beam', 'Solar Blade'):
+    			basepower = basepower * 0.5
+
 	    elif Field.Weather == 'Strong Winds':
 	    	if 'Flying' in targettype:
 	        	if movetype in ('Electric', 'Ice', 'Rock'):
 	        		modifier = modifier * 0.5
 
+	### Terrains
+
     if Field.Terrain == 'Psychic':
     	if movetype == 'Psychic':
 	        if 'Flying' not in usertype and User.Ability != 'Levitate' and not User.IsInAir:
 	        	basepower = basepower * 1.3
+    
     elif Field.Terrain == 'Grassy':
         if movetype == 'Grass':
 	        if 'Flying' not in usertype and User.Ability != 'Levitate' and not User.IsInAir:
 	        	basepower = basepower * 1.3
 	    if Move.Name in ('Earthquake', 'Bulldoze', 'Magnitude') and not Target.IsUnderground:
 	    	basepower = basepower * 0.5
+    
     elif Field.Terrain == 'Misty':
         if movetype == 'Dragon':
         	if 'Flying' not in targettype and Target.Ability != 'Levitate' and not Target.IsInAir:
         		basepower = basepower * 0.5
+    
     elif Field.Terrain == 'Electric':
         if movetype == 'Electric':
 	        if 'Flying' not in usertype and User.Ability != 'Levitate' and not User.IsInAir:
 	        	basepower = basepower * 1.3
 
+    # Just make sure nothing breaks 
+    
+    if effatk < 1:
+        effatk = 1
+    if effdef < 1:
+        effdef = 1
 
     # Multiply it all together
+    
     damage = ((22 * basepower * effatk / effdef) / 50 + 2) * modifier 
+
+    # Ensure 1 damage except when Immune
+    
+    if damage < 1 and modifier != 0:
+    	damage = 1
+
     return damage

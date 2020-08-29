@@ -104,11 +104,9 @@ IsSubstitute
 
 Weather
 Terrain
-P1Effects --List, eg Screens, Tailwind, Wildfire, Swamp, Vine lash
-P2Effects --List '' ''
-BothEffects --List eg Neutralizing Gas, Gravity, Trick Room, Magic Room, Wonder Room
-P1Hazards --List, eg Rocks, Spikes, Steelspikes, Webs
-P2Hazards
+P1Effects --Dict, eg Screens, Tailwind, Wildfire, Swamp, Vine lash
+P2Effects --Dict '' ''
+BothEffects --Dict eg Neutralizing Gas, Gravity, Trick Room, Magic Room, Wonder Room
 
 --Player
 
@@ -157,14 +155,3 @@ IgnoresRedirect -- Stalwart, Snipe Shot
 Speed
 ForceFirst
 ForceLast
-
---Ability
-
-ID
-Name
-SentOutEffect
-BattleEffect
-StatusEffect
-OtherEffect
-
---
