@@ -730,3 +730,4 @@ ID,Name,Type,BasePower,BaseAcc,Priority,Category,BasePP,Spread,IsContact,CanSnat
 814,Scorching Sands,Ground,70,1,0,Special,16,Single,FALSE,FALSE,FALSE,FALSE,120,0.3,FALSE,FALSE,FALSE
 815,Shell Side Arm,Poison,90,1,0,Special,16,Single,FALSE,FALSE,FALSE,FALSE,90,0.2,FALSE,FALSE,FALSE
 816,Shell Side Arm P,Poison,90,1,0,Physical,16,Single,TRUE,FALSE,FALSE,FALSE,90,0.2,FALSE,FALSE,FALSE
+817,Shell Side Arm D,Flame,90,1,0,Fire,16,Single,TRUE,TRALSE,FALSE,FALSE,90,0.2,FALSE,FALSE,FALSE
