@@ -1,5 +1,3 @@
-
-
 === MOVES ===
 
 A quick overview of how moves work:
